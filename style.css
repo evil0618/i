@@ -30,6 +30,14 @@
   --overlay-strong: rgba(0, 0, 0, 0.55);
   --overlay-light: rgba(0, 0, 0, 0.05);
 
+  /* Modal overlay */
+  --modal-overlay: rgba(0, 0, 0, 0.45);
+  --modal-card-bg: rgba(255, 255, 255, 0.82);
+  --modal-input-bg: rgba(0, 0, 0, 0.04);
+  --modal-input-border: rgba(0, 0, 0, 0.12);
+  --modal-input-focus: var(--accent);
+  --modal-error: #e53935;
+
   /* Fallback gradient (shown before wallpaper loads) */
   --fallback-bg:
     radial-gradient(ellipse at 20% 50%, rgba(232, 93, 58, 0.18) 0%, transparent 50%),
@@ -55,6 +63,11 @@
     --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.45);
     --overlay-strong: rgba(0, 0, 0, 0.7);
     --overlay-light: rgba(0, 0, 0, 0.3);
+    --modal-overlay: rgba(0, 0, 0, 0.6);
+    --modal-card-bg: rgba(28, 28, 36, 0.88);
+    --modal-input-bg: rgba(255, 255, 255, 0.06);
+    --modal-input-border: rgba(255, 255, 255, 0.1);
+    --modal-error: #ff6b6b;
   }
 }
 
@@ -75,6 +88,11 @@
   --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.45);
   --overlay-strong: rgba(0, 0, 0, 0.7);
   --overlay-light: rgba(0, 0, 0, 0.3);
+  --modal-overlay: rgba(0, 0, 0, 0.6);
+  --modal-card-bg: rgba(28, 28, 36, 0.88);
+  --modal-input-bg: rgba(255, 255, 255, 0.06);
+  --modal-input-border: rgba(255, 255, 255, 0.1);
+  --modal-error: #ff6b6b;
 }
 
 :root[data-theme='light'] {
@@ -93,6 +111,12 @@
   --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.12);
   --overlay-strong: rgba(0, 0, 0, 0.55);
   --overlay-light: rgba(0, 0, 0, 0.05);
+  --modal-overlay: rgba(0, 0, 0, 0.45);
+  --modal-card-bg: rgba(255, 255, 255, 0.82);
+  --modal-input-bg: rgba(0, 0, 0, 0.04);
+  --modal-input-border: rgba(0, 0, 0, 0.12);
+  --modal-input-focus: var(--accent);
+  --modal-error: #e53935;
 }
 
 /* ============================================
@@ -217,6 +241,43 @@ button {
   color: var(--text-secondary);
   max-width: 480px;
   line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+/* Hero meta — birthday & zodiac */
+.hero__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.hero__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.hero__meta-item svg {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.hero__meta-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--border-subtle);
+  transition: background 0.4s ease;
 }
 
 /* Hero scroll hint */
@@ -267,6 +328,7 @@ button {
 .is-loaded .animate-on-load:nth-child(1) { transition-delay: 0.1s; }
 .is-loaded .animate-on-load:nth-child(2) { transition-delay: 0.25s; }
 .is-loaded .animate-on-load:nth-child(3) { transition-delay: 0.4s; }
+.is-loaded .animate-on-load:nth-child(4) { transition-delay: 0.55s; }
 
 .is-loaded .animate-on-load {
   opacity: 1;
@@ -439,6 +501,305 @@ button {
 .link-item:hover .link-item__arrow {
   transform: translateX(4px);
   color: var(--accent);
+}
+
+/* ============================================
+   Contact Modal
+   ============================================ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--modal-overlay);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.35s;
+}
+
+.modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  background: var(--modal-card-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
+  padding: 2rem 1.75rem;
+  transform: scale(0.88) translateY(20px);
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s ease,
+              background 0.4s ease,
+              border-color 0.4s ease;
+}
+
+.modal-overlay.is-open .modal-card {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-muted);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close:hover {
+  background: var(--bg-glass-hover);
+  color: var(--text-primary);
+  transform: rotate(90deg);
+}
+
+/* Auth gate */
+.modal-auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem 0 0.5rem;
+}
+
+.modal-auth__icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: var(--accent-glow);
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+}
+
+.modal-auth__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.modal-auth__desc {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.modal-auth__form {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 280px;
+}
+
+.modal-auth__input {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background: var(--modal-input-bg);
+  border: 1px solid var(--modal-input-border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.25s ease, background 0.4s ease;
+}
+
+.modal-auth__input::placeholder {
+  color: var(--text-muted);
+}
+
+.modal-auth__input:focus {
+  border-color: var(--accent);
+}
+
+.modal-auth__btn {
+  padding: 0.65rem 1.25rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: #fff;
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.modal-auth__btn:hover {
+  background: var(--accent-hover);
+}
+
+.modal-auth__btn:active {
+  transform: scale(0.96);
+}
+
+.modal-auth__error {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--modal-error);
+  margin-top: 0.75rem;
+  min-height: 1.2em;
+  transition: opacity 0.2s ease;
+}
+
+/* Authenticated content */
+.modal-content {
+  padding: 0.5rem 0 0;
+}
+
+.modal-content__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+
+.modal-content__header svg {
+  color: var(--accent);
+}
+
+/* Contact row */
+.modal-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--modal-input-bg);
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
+  transition: background 0.4s ease;
+}
+
+.modal-contact-row__icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--accent-glow);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.modal-contact-row__label {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.modal-contact-row__value {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+/* QR code */
+.modal-qr {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.modal-qr__label {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.modal-qr__img-wrap {
+  display: inline-block;
+  padding: 12px;
+  background: #fff;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.modal-qr__img {
+  width: 180px;
+  height: 180px;
+  display: block;
+  object-fit: contain;
+}
+
+/* Modal content enter animation */
+.modal-content.is-entering {
+  animation: modal-content-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modal-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal auth exit animation */
+.modal-auth.is-exiting {
+  animation: modal-auth-out 0.3s ease forwards;
+}
+
+@keyframes modal-auth-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+/* Modal shake on wrong code */
+.modal-card.is-shaking {
+  animation: modal-shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes modal-shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
 }
 
 /* ============================================
@@ -672,5 +1033,13 @@ button {
 
   .footer__theme-toggle {
     background: var(--bg-primary);
+  }
+
+  .modal-card {
+    background: var(--bg-primary);
+  }
+
+  .modal-overlay {
+    background: rgba(0, 0, 0, 0.7);
   }
 }

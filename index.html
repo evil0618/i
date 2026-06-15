@@ -60,45 +60,70 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
 
-      <!-- Auth Gate -->
-      <div class="modal-auth" id="modalAuth">
-        <div class="modal-auth__icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
-        <p class="modal-auth__title">私密内容</p>
-        <p class="modal-auth__desc">请输入授权码以查看联系方式</p>
-        <div class="modal-auth__form">
-          <input type="text" class="modal-auth__input" id="authInput" placeholder="输入授权码" maxlength="10" autocomplete="off">
-          <button class="modal-auth__btn" id="authSubmit">验证</button>
-        </div>
-        <p class="modal-auth__error" id="authError"></p>
+      <!-- Tab Switcher -->
+      <div class="modal-tabs" id="modalTabs">
+        <button class="modal-tab is-active" data-tab="wechat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zM14.5 13.71c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982z"/></svg>
+          <span>微信</span>
+        </button>
+        <button class="modal-tab" data-tab="phone">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>手机号</span>
+        </button>
       </div>
 
-      <!-- Authenticated Content -->
-      <div class="modal-content" id="modalContent" style="display:none;">
-        <div class="modal-content__header">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <span>联系方式</span>
-        </div>
-
-        <!-- Phone -->
-        <div class="modal-contact-row">
-          <div class="modal-contact-row__icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          </div>
-          <span class="modal-contact-row__label">手机</span>
-          <span class="modal-contact-row__value">173-7668-9927</span>
-        </div>
-
-        <!-- QR Code -->
+      <!-- WeChat Tab Content -->
+      <div class="modal-tab-content is-active" id="tabWechat">
         <div class="modal-qr">
-          <p class="modal-qr__label">微信二维码</p>
-          <div class="modal-qr__img-wrap">
+          <p class="modal-qr__label">微信扫码添加好友</p>
+          <div class="modal-qr__img-wrap" id="qrImgWrap">
             <img src="wechat.jpg" alt="微信二维码" class="modal-qr__img" loading="lazy">
+            <button class="modal-qr__zoom" id="qrZoomBtn" aria-label="放大查看">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone Tab Content -->
+      <div class="modal-tab-content" id="tabPhone">
+        <!-- Phone Auth Gate -->
+        <div class="modal-phone-auth" id="phoneAuth">
+          <div class="modal-phone-auth__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <p class="modal-phone-auth__title">验证授权码</p>
+          <p class="modal-phone-auth__desc">请输入授权码以查看手机号</p>
+          <div class="modal-phone-auth__form">
+            <input type="text" class="modal-phone-auth__input" id="phoneAuthInput" placeholder="输入授权码" maxlength="10" autocomplete="off">
+            <button class="modal-phone-auth__btn" id="phoneAuthSubmit">验证</button>
+          </div>
+          <p class="modal-phone-auth__error" id="phoneAuthError"></p>
+        </div>
+
+        <!-- Phone Verified Content -->
+        <div class="modal-phone-content" id="phoneContent" style="display:none;">
+          <div class="modal-contact-row">
+            <div class="modal-contact-row__icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <span class="modal-contact-row__label">手机</span>
+            <span class="modal-contact-row__value">173-7668-9927</span>
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- QR Code Lightbox -->
+  <div class="qr-lightbox" id="qrLightbox" aria-hidden="true">
+    <button class="qr-lightbox__close" id="qrLightboxClose" aria-label="关闭">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="qr-lightbox__img-wrap">
+      <img src="wechat.jpg" alt="微信二维码" class="qr-lightbox__img" loading="lazy">
+    </div>
+    <p class="qr-lightbox__hint">长按保存或扫码添加</p>
   </div>
 
   <footer class="footer">

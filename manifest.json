@@ -1,0 +1,16 @@
+{
+  "name": "evil0618",
+  "short_name": "evil0618",
+  "description": "个人主页与链接导航",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#e85d3a",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

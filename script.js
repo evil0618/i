@@ -1,5 +1,5 @@
 /* ============================================
-   evil0618 — Personal Homepage Script
+   evil0618 — Personal Homepage Script v3
    ============================================ */
 
 (function () {
@@ -55,7 +55,76 @@
   ];
 
   // ============================================
-  // 3. Render Links
+  // 3. Loading Screen
+  // ============================================
+  function initLoader() {
+    const loader = document.getElementById('loader');
+    if (!loader) return;
+
+    const hide = () => {
+      loader.classList.add('is-hidden');
+      setTimeout(() => loader.remove(), 600);
+    };
+
+    // Hide after assets are ready or max 2s
+    const timer = setTimeout(hide, 2000);
+
+    window.addEventListener('load', () => {
+      clearTimeout(timer);
+      setTimeout(hide, 400);
+    }, { once: true });
+  }
+
+  // ============================================
+  // 4. Typing Animation
+  // ============================================
+  function initTypingAnimation() {
+    const el = document.getElementById('heroTagline');
+    if (!el) return;
+
+    const text = 'Hello, World';
+    let i = 0;
+    el.textContent = '';
+
+    function type() {
+      if (i < text.length) {
+        el.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, 80 + Math.random() * 60);
+      } else {
+        el.classList.add('is-typed');
+      }
+    }
+
+    // Start after hero load animation begins
+    setTimeout(type, 600);
+  }
+
+  // ============================================
+  // 5. Particle Background
+  // ============================================
+  function initParticles() {
+    const container = document.getElementById('heroParticles');
+    if (!container) return;
+
+    const count = window.innerWidth < 640 ? 20 : 40;
+    for (let i = 0; i < count; i++) {
+      const dot = document.createElement('span');
+      dot.className = 'particle';
+      dot.style.left = Math.random() * 100 + '%';
+      dot.style.top = Math.random() * 100 + '%';
+      dot.style.animationDelay = Math.random() * 6 + 's';
+      dot.style.animationDuration = (4 + Math.random() * 6) + 's';
+      const size = 1 + Math.random() * 2;
+      dot.style.width = size + 'px';
+      dot.style.height = size + 'px';
+      dot.style.opacity = 0.15 + Math.random() * 0.35;
+      container.appendChild(dot);
+    }
+  }
+
+  // ============================================
+  // 6. Render Links
   // ============================================
   function renderLinks() {
     const container = document.getElementById('linksGroups');
@@ -106,7 +175,7 @@
   }
 
   // ============================================
-  // 4. Bing Wallpaper (Optimized)
+  // 7. Bing Wallpaper (Optimized)
   // ============================================
   const BING_API = 'https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN';
   const CORS_PROXIES = [
@@ -114,10 +183,7 @@
     url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
   ];
 
-  // Use Bing's UHD endpoint for higher resolution, with a smaller fallback
   function buildImageUrl(bingUrl) {
-    // Bing returns URLs like /th?id=OHR.xxx_1920x1080.jpg
-    // We can try the UHD version first
     return `https://cn.bing.com${bingUrl}`;
   }
 
@@ -128,45 +194,30 @@
   }
 
   async function fetchBingWallpaper() {
-    // Strategy: try all sources in parallel, use the first successful one
     const attempts = [
-      // Direct fetch
       fetchJSON(BING_API).then(data => {
         if (data?.images?.[0]) {
-          return {
-            url: buildImageUrl(data.images[0].url),
-            copyright: data.images[0].copyright || '',
-          };
+          return { url: buildImageUrl(data.images[0].url), copyright: data.images[0].copyright || '' };
         }
         throw new Error('No image data');
       }),
-      // Proxy 1
       fetchJSON(CORS_PROXIES[0](BING_API)).then(data => {
         if (data?.images?.[0]) {
-          return {
-            url: buildImageUrl(data.images[0].url),
-            copyright: data.images[0].copyright || '',
-          };
+          return { url: buildImageUrl(data.images[0].url), copyright: data.images[0].copyright || '' };
         }
         throw new Error('No image data');
       }),
-      // Proxy 2
       fetchJSON(CORS_PROXIES[1](BING_API)).then(data => {
         if (data?.images?.[0]) {
-          return {
-            url: buildImageUrl(data.images[0].url),
-            copyright: data.images[0].copyright || '',
-          };
+          return { url: buildImageUrl(data.images[0].url), copyright: data.images[0].copyright || '' };
         }
         throw new Error('No image data');
       }),
     ];
 
-    // Race: first success wins
     try {
       return await Promise.any(attempts);
     } catch (e) {
-      // All failed — fallback gradient stays
       return null;
     }
   }
@@ -177,7 +228,6 @@
     const heroBg = document.querySelector('.hero__bg');
     if (!heroBg) return;
 
-    // Preload with smaller hint, then set full
     const img = new Image();
     img.onload = () => {
       heroBg.style.backgroundImage = `url(${wallpaper.url})`;
@@ -190,14 +240,11 @@
         infoEl.title = wallpaper.copyright;
       }
     };
-    img.onerror = () => {
-      // Keep gradient fallback
-    };
     img.src = wallpaper.url;
   }
 
   // ============================================
-  // 5. Contact Modal
+  // 8. Contact Modal
   // ============================================
   const AUTH_CODE = '1311';
   let isPhoneVerified = false;
@@ -207,16 +254,12 @@
     if (!modal) return;
 
     modal.setAttribute('aria-hidden', 'false');
-
-    // Reset to wechat tab
     switchTab('wechat');
 
-    // Open with animation
     requestAnimationFrame(() => {
       modal.classList.add('is-open');
     });
 
-    // Prevent body scroll
     document.body.style.overflow = 'hidden';
   }
 
@@ -241,7 +284,6 @@
       content.classList.toggle('is-active', content.id === (tabName === 'wechat' ? 'tabWechat' : 'tabPhone'));
     });
 
-    // If switching to phone tab and not verified, focus the input
     if (tabName === 'phone' && !isPhoneVerified) {
       setTimeout(() => {
         const input = document.getElementById('phoneAuthInput');
@@ -278,7 +320,6 @@
       void card.offsetWidth;
       card.classList.add('is-shaking');
       setTimeout(() => card.classList.remove('is-shaking'), 500);
-
       setTimeout(() => {
         input.value = '';
         input.focus();
@@ -289,17 +330,13 @@
   function openQRLightbox() {
     const lightbox = document.getElementById('qrLightbox');
     if (!lightbox) return;
-
     lightbox.setAttribute('aria-hidden', 'false');
-    requestAnimationFrame(() => {
-      lightbox.classList.add('is-open');
-    });
+    requestAnimationFrame(() => lightbox.classList.add('is-open'));
   }
 
   function closeQRLightbox() {
     const lightbox = document.getElementById('qrLightbox');
     if (!lightbox) return;
-
     lightbox.classList.remove('is-open');
     lightbox.setAttribute('aria-hidden', 'true');
   }
@@ -308,82 +345,220 @@
     const modal = document.getElementById('contactModal');
     if (!modal) return;
 
-    // Close button
-    const closeBtn = document.getElementById('modalClose');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', closeContactModal);
-    }
+    document.getElementById('modalClose')?.addEventListener('click', closeContactModal);
 
-    // Click overlay to close
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeContactModal();
-      }
+      if (e.target === modal) closeContactModal();
     });
 
-    // Escape key to close
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (document.getElementById('qrLightbox')?.classList.contains('is-open')) {
           closeQRLightbox();
         } else if (modal.classList.contains('is-open')) {
           closeContactModal();
+        } else if (document.getElementById('searchOverlay')?.classList.contains('is-open')) {
+          closeSearch();
         }
       }
     });
 
-    // Tab switching
-    const tabs = document.getElementById('modalTabs');
-    if (tabs) {
-      tabs.addEventListener('click', (e) => {
-        const tab = e.target.closest('.modal-tab');
-        if (tab) {
-          switchTab(tab.getAttribute('data-tab'));
-        }
-      });
-    }
+    document.getElementById('modalTabs')?.addEventListener('click', (e) => {
+      const tab = e.target.closest('.modal-tab');
+      if (tab) switchTab(tab.getAttribute('data-tab'));
+    });
 
-    // Phone auth submit button
-    const phoneSubmitBtn = document.getElementById('phoneAuthSubmit');
-    if (phoneSubmitBtn) {
-      phoneSubmitBtn.addEventListener('click', submitPhoneAuthCode);
-    }
+    document.getElementById('phoneAuthSubmit')?.addEventListener('click', submitPhoneAuthCode);
 
-    // Phone auth Enter key
-    const phoneAuthInput = document.getElementById('phoneAuthInput');
-    if (phoneAuthInput) {
-      phoneAuthInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          submitPhoneAuthCode();
-        }
-      });
-    }
+    document.getElementById('phoneAuthInput')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') submitPhoneAuthCode();
+    });
 
-    // QR zoom button
-    const qrZoomBtn = document.getElementById('qrZoomBtn');
-    if (qrZoomBtn) {
-      qrZoomBtn.addEventListener('click', openQRLightbox);
-    }
+    document.getElementById('qrZoomBtn')?.addEventListener('click', openQRLightbox);
+    document.getElementById('qrLightboxClose')?.addEventListener('click', closeQRLightbox);
 
-    // QR lightbox close
-    const qrLightboxClose = document.getElementById('qrLightboxClose');
-    if (qrLightboxClose) {
-      qrLightboxClose.addEventListener('click', closeQRLightbox);
-    }
-
-    // QR lightbox click overlay to close
     const qrLightbox = document.getElementById('qrLightbox');
     if (qrLightbox) {
       qrLightbox.addEventListener('click', (e) => {
-        if (e.target === qrLightbox) {
-          closeQRLightbox();
-        }
+        if (e.target === qrLightbox) closeQRLightbox();
       });
     }
   }
 
   // ============================================
-  // 6. Scroll Animations (IntersectionObserver)
+  // 9. Search
+  // ============================================
+  function openSearch() {
+    const overlay = document.getElementById('searchOverlay');
+    if (!overlay) return;
+
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => overlay.classList.add('is-open'));
+
+    setTimeout(() => {
+      document.getElementById('searchInput')?.focus();
+    }, 200);
+  }
+
+  function closeSearch() {
+    const overlay = document.getElementById('searchOverlay');
+    if (!overlay) return;
+
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+
+    const input = document.getElementById('searchInput');
+    if (input) input.value = '';
+    document.getElementById('searchResults').innerHTML = '';
+    document.getElementById('searchEmpty').style.display = 'none';
+  }
+
+  function performSearch(query) {
+    const results = document.getElementById('searchResults');
+    const empty = document.getElementById('searchEmpty');
+    if (!results || !empty) return;
+
+    if (!query.trim()) {
+      results.innerHTML = '';
+      empty.style.display = 'none';
+      return;
+    }
+
+    const q = query.toLowerCase();
+    const matches = [];
+
+    LINKS_DATA.forEach(group => {
+      group.items.forEach(item => {
+        if (
+          item.name.toLowerCase().includes(q) ||
+          item.desc.toLowerCase().includes(q) ||
+          group.category.toLowerCase().includes(q)
+        ) {
+          matches.push({ ...item, category: group.category });
+        }
+      });
+    });
+
+    if (matches.length === 0) {
+      results.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+
+    empty.style.display = 'none';
+    results.innerHTML = matches.map(item => {
+      if (item.isAction) {
+        return `
+          <a href="javascript:void(0)" class="search-result" data-action="${item.action}">
+            <span class="search-result__icon">${ICONS[item.icon] || ''}</span>
+            <span class="search-result__text">
+              <span class="search-result__name">${item.name}</span>
+              <span class="search-result__desc">${item.category} · ${item.desc}</span>
+            </span>
+          </a>
+        `;
+      }
+      return `
+        <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="search-result">
+          <span class="search-result__icon">${ICONS[item.icon] || ''}</span>
+          <span class="search-result__text">
+            <span class="search-result__name">${item.name}</span>
+            <span class="search-result__desc">${item.category} · ${item.desc}</span>
+          </span>
+        </a>
+      `;
+    }).join('');
+
+    // Bind action results
+    results.querySelectorAll('[data-action]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeSearch();
+        if (el.getAttribute('data-action') === 'openContact') {
+          openContactModal();
+        }
+      });
+    });
+  }
+
+  function initSearch() {
+    const overlay = document.getElementById('searchOverlay');
+    if (!overlay) return;
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeSearch();
+    });
+
+    document.getElementById('searchInput')?.addEventListener('input', (e) => {
+      performSearch(e.target.value);
+    });
+
+    document.getElementById('navSearchBtn')?.addEventListener('click', openSearch);
+
+    // Ctrl/Cmd + K shortcut
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const overlay = document.getElementById('searchOverlay');
+        if (overlay?.classList.contains('is-open')) {
+          closeSearch();
+        } else {
+          openSearch();
+        }
+      }
+    });
+  }
+
+  // ============================================
+  // 10. Floating Nav
+  // ============================================
+  function initFloatingNav() {
+    const nav = document.getElementById('floatNav');
+    if (!nav) return;
+
+    let lastScroll = 0;
+
+    function onScroll() {
+      const y = window.scrollY;
+      const threshold = window.innerHeight * 0.5;
+
+      if (y > threshold) {
+        nav.classList.add('is-visible');
+      } else {
+        nav.classList.remove('is-visible');
+      }
+
+      lastScroll = y;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Theme toggle in nav
+    document.getElementById('navThemeBtn')?.addEventListener('click', toggleTheme);
+  }
+
+  // ============================================
+  // 11. Back to Top
+  // ============================================
+  function initBackToTop() {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > window.innerHeight) {
+        btn.classList.add('is-visible');
+      } else {
+        btn.classList.remove('is-visible');
+      }
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // ============================================
+  // 12. Scroll Animations
   // ============================================
   function initScrollAnimations() {
     const observer = new IntersectionObserver(
@@ -404,21 +579,19 @@
   }
 
   // ============================================
-  // 7. Hero Load Animation
+  // 13. Hero Load Animation
   // ============================================
   function initHeroAnimation() {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const hero = document.querySelector('.hero');
-        if (hero) {
-          hero.classList.add('is-loaded');
-        }
+        if (hero) hero.classList.add('is-loaded');
       });
     });
   }
 
   // ============================================
-  // 8. Cursor Glow Effect (Desktop only)
+  // 14. Cursor Glow Effect
   // ============================================
   function initCursorGlow() {
     if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
@@ -447,32 +620,40 @@
   }
 
   // ============================================
-  // 9. Theme Toggle
+  // 15. Theme Toggle
   // ============================================
-  function initTheme() {
-    const toggle = document.getElementById('themeToggle');
-    if (!toggle) return;
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const isDark = current === 'dark' ||
+      (!current && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
+    const next = isDark ? 'light' : 'dark';
+
+    // Add transition class for smooth switch
+    document.documentElement.classList.add('theme-transitioning');
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+
+    setTimeout(() => {
+      document.documentElement.classList.remove('theme-transitioning');
+    }, 500);
+
+    // Animate both toggle buttons
+    document.querySelectorAll('.footer__theme-toggle, .float-nav__btn').forEach(btn => {
+      btn.classList.remove('is-rotating');
+      void btn.offsetWidth;
+      btn.classList.add('is-rotating');
+      setTimeout(() => btn.classList.remove('is-rotating'), 500);
+    });
+  }
+
+  function initTheme() {
     const saved = localStorage.getItem('theme');
     if (saved) {
       document.documentElement.setAttribute('data-theme', saved);
     }
 
-    toggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      const isDark = current === 'dark' ||
-        (!current && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
-      const next = isDark ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-
-      toggle.classList.remove('is-rotating');
-      void toggle.offsetWidth;
-      toggle.classList.add('is-rotating');
-
-      setTimeout(() => toggle.classList.remove('is-rotating'), 500);
-    });
+    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
       if (!localStorage.getItem('theme')) {
@@ -482,17 +663,53 @@
   }
 
   // ============================================
-  // 10. Initialize
+  // 16. Ripple Effect
+  // ============================================
+  function initRipple() {
+    document.addEventListener('click', (e) => {
+      const target = e.target.closest('.link-item, .modal-tab, .modal-phone-auth__btn, .modal-qr__zoom, .back-to-top, .float-nav__btn');
+      if (!target) return;
+
+      const rect = target.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      const size = Math.max(rect.width, rect.height) * 2;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      target.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  }
+
+  // ============================================
+  // 17. Service Worker
+  // ============================================
+  function initServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  }
+
+  // ============================================
+  // 18. Initialize
   // ============================================
   function init() {
+    initLoader();
+    initTypingAnimation();
+    initParticles();
     renderLinks();
     initHeroAnimation();
     initScrollAnimations();
     initCursorGlow();
     initTheme();
     initContactModal();
+    initSearch();
+    initFloatingNav();
+    initBackToTop();
+    initRipple();
+    initServiceWorker();
 
-    // Fetch Bing wallpaper — all 3 sources race in parallel for speed
     fetchBingWallpaper().then(applyWallpaper).catch(() => {});
   }
 

@@ -14,8 +14,8 @@
   --bg-glass-active: rgba(255, 255, 255, 0.25);
   --glass-border: rgba(255, 255, 255, 0.25);
   --glass-border-subtle: rgba(255, 255, 255, 0.15);
-  --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.03);
-  --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.05);
+  --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.03), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.5);
 
   --text-primary: #1a1a1a;
   --text-secondary: #555555;
@@ -58,8 +58,8 @@
     --bg-glass-active: rgba(255, 255, 255, 0.07);
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-border-subtle: rgba(255, 255, 255, 0.05);
-    --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.15), 0 4px 24px rgba(0, 0, 0, 0.1);
-    --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.2), 0 8px 32px rgba(0, 0, 0, 0.15);
+    --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.15), 0 4px 24px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.06);
+    --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.2), 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.08);
 
     --text-primary: #f0ece6;
     --text-secondary: #b0aaa0;
@@ -88,8 +88,8 @@
   --bg-glass-active: rgba(255, 255, 255, 0.07);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-border-subtle: rgba(255, 255, 255, 0.05);
-  --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.15), 0 4px 24px rgba(0, 0, 0, 0.1);
-  --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.2), 0 8px 32px rgba(0, 0, 0, 0.15);
+  --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.15), 0 4px 24px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.06);
+  --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.2), 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.08);
   --text-primary: #f0ece6;
   --text-secondary: #b0aaa0;
   --text-muted: #706a60;
@@ -116,8 +116,8 @@
   --bg-glass-active: rgba(255, 255, 255, 0.25);
   --glass-border: rgba(255, 255, 255, 0.25);
   --glass-border-subtle: rgba(255, 255, 255, 0.15);
-  --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.03);
-  --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.05);
+  --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.03), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.5);
   --text-primary: #1a1a1a;
   --text-secondary: #555555;
   --text-muted: #888888;
@@ -769,14 +769,7 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-sm);
-  background: var(--accent-glow);
-  color: var(--accent);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.5s ease, box-shadow 0.3s ease;
-}
-
-.link-item:hover .link-item__icon {
-  transform: scale(1.05);
-  background: var(--bg-glass-hover);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
 }
 
 .link-item__icon svg { width: 18px; height: 18px; }
@@ -1489,37 +1482,205 @@ button {
   transition: none;
 }
 
-/* --- Glass Shimmer Animation --- */
-@keyframes glass-shimmer {
-  0% { transform: translateX(-100%) rotate(15deg); }
-  100% { transform: translateX(200%) rotate(15deg); }
-}
+/* ============================================
+   v5 — True iOS Liquid Glass Enhancement
+   ============================================ */
 
-.link-group__card .glass-shimmer,
-.modal-card .glass-shimmer,
-.float-nav__inner .glass-shimmer {
+/* --- SVG Glass Distortion Filter --- */
+/* Applied via ::after pseudo-element to avoid content distortion */
+.link-group__card::after,
+.modal-card::after,
+.float-nav__inner::after,
+.hero__meta::after {
+  content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 50%;
-  height: 200%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.06) 45%,
-    rgba(255, 255, 255, 0.12) 50%,
-    rgba(255, 255, 255, 0.06) 55%,
-    transparent 100%
-  );
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  filter: url(#glass-distortion);
+  -webkit-filter: url(#glass-distortion);
   pointer-events: none;
-  z-index: 3;
-  transform: translateX(-100%) rotate(15deg);
 }
 
-.link-group__card:hover .glass-shimmer,
-.modal-card:hover .glass-shimmer {
-  animation: glass-shimmer 0.8s ease-out forwards;
+/* --- iOS-style Hover: Subtle Lift + Brightness --- */
+.link-item:hover {
+  background: var(--bg-glass-hover);
+  transform: translateY(-0.5px);
 }
+
+.link-item:active {
+  background: var(--bg-glass-active);
+  transform: scale(0.985) translateY(0);
+}
+
+/* --- iOS-style Nav Bar Scroll Shrink --- */
+.float-nav__inner.is-scrolled {
+  padding: 0.4rem 0.8rem;
+  max-width: 480px;
+  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.float-nav__inner {
+  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- iOS-style Tab Bar: Active State with Inner Highlight --- */
+.modal-tab.is-active {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--accent);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+:root[data-theme='dark'] .modal-tab.is-active {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05), 0 1px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* --- iOS-style Button: Liquid Glass --- */
+.modal-phone-auth__btn {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  color: var(--accent);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.modal-phone-auth__btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-0.5px);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4), 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme='dark'] .modal-phone-auth__btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05), 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+:root[data-theme='dark'] .modal-phone-auth__btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.08), 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* --- iOS-style Icon Container: Glass Pill --- */
+.link-item__icon {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  color: var(--accent);
+}
+
+:root[data-theme='dark'] .link-item__icon {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.03);
+}
+
+.link-item:hover .link-item__icon {
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(1.05);
+}
+
+:root[data-theme='dark'] .link-item:hover .link-item__icon {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* --- iOS-style Back to Top: Liquid Glass --- */
+.back-to-top:hover {
+  background: var(--bg-glass-hover);
+  color: var(--accent);
+  transform: translateY(-0.5px);
+  box-shadow: var(--glass-depth-hover);
+}
+
+/* --- iOS-style Footer Theme Toggle --- */
+.footer__theme-toggle:hover {
+  background: var(--bg-glass-hover);
+  transform: scale(1.05);
+  box-shadow: var(--glass-depth-hover);
+}
+
+/* --- iOS-style Search Result Hover --- */
+.search-result:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+:root[data-theme='dark'] .search-result:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* --- iOS-style QR Code Wrap --- */
+.modal-qr__img-wrap {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.modal-qr__img-wrap:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* --- iOS-style Contact Row --- */
+.modal-contact-row {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme='dark'] .modal-contact-row {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.02);
+}
+
+/* --- iOS-style Auth Icon --- */
+.modal-phone-auth__icon {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+:root[data-theme='dark'] .modal-phone-auth__icon {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.03);
+}
+
+/* --- iOS-style Modal Input --- */
+.modal-phone-auth__input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.08);
+}
+
+:root[data-theme='dark'] .modal-phone-auth__input {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.02);
+}
+
+.modal-phone-auth__input:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme='dark'] .modal-phone-auth__input:focus {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- Glass Shimmer (removed) --- */
 
 /* --- Hero Aurora Ring --- */
 .hero__aurora {

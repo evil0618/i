@@ -134,7 +134,6 @@
       <div class="link-group animate-on-scroll">
         <p class="link-group__label">${group.category}</p>
         <div class="link-group__card stagger-children">
-          <div class="glass-shimmer" aria-hidden="true"></div>
           ${group.items.map(item => {
             if (item.isAction) {
               return `
@@ -520,6 +519,7 @@
     const nav = document.getElementById('floatNav');
     if (!nav) return;
 
+    const inner = nav.querySelector('.float-nav__inner');
     let lastScroll = 0;
 
     function onScroll() {
@@ -530,6 +530,15 @@
         nav.classList.add('is-visible');
       } else {
         nav.classList.remove('is-visible');
+      }
+
+      // iOS-style nav bar shrink when scrolling down
+      if (inner) {
+        if (y > lastScroll && y > window.innerHeight) {
+          inner.classList.add('is-scrolled');
+        } else {
+          inner.classList.remove('is-scrolled');
+        }
       }
 
       lastScroll = y;

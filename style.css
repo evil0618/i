@@ -465,6 +465,12 @@ button {
   height: 18px;
 }
 
+/* WeChat icon uses fill instead of stroke */
+.link-item__icon svg[fill="currentColor"] {
+  width: 20px;
+  height: 20px;
+}
+
 .link-item__text {
   flex: 1;
   min-width: 0;
@@ -567,6 +573,7 @@ button {
   border-radius: 50%;
   color: var(--text-muted);
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  z-index: 2;
 }
 
 .modal-close:hover {
@@ -575,8 +582,69 @@ button {
   transform: rotate(90deg);
 }
 
-/* Auth gate */
-.modal-auth {
+/* Tab Switcher */
+.modal-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--modal-input-bg);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.modal-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 9px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.modal-tab svg {
+  flex-shrink: 0;
+}
+
+.modal-tab:hover {
+  color: var(--text-secondary);
+}
+
+.modal-tab.is-active {
+  background: var(--bg-glass);
+  color: var(--accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Tab Content */
+.modal-tab-content {
+  display: none;
+}
+
+.modal-tab-content.is-active {
+  display: block;
+  animation: tab-fade-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes tab-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Phone Auth Gate */
+.modal-phone-auth {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -584,44 +652,44 @@ button {
   padding: 1rem 0 0.5rem;
 }
 
-.modal-auth__icon {
-  width: 56px;
-  height: 56px;
+.modal-phone-auth__icon {
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
+  border-radius: 14px;
   background: var(--accent-glow);
   color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.modal-phone-auth__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.modal-phone-auth__desc {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.82rem;
+  color: var(--text-muted);
   margin-bottom: 1.25rem;
 }
 
-.modal-auth__title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--text-primary);
-  margin-bottom: 0.4rem;
-}
-
-.modal-auth__desc {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-bottom: 1.5rem;
-}
-
-.modal-auth__form {
+.modal-phone-auth__form {
   display: flex;
   gap: 0.5rem;
   width: 100%;
   max-width: 280px;
 }
 
-.modal-auth__input {
+.modal-phone-auth__input {
   flex: 1;
-  padding: 0.65rem 1rem;
+  padding: 0.6rem 1rem;
   font-family: var(--font-body);
   font-weight: 400;
   font-size: 0.9rem;
@@ -633,16 +701,16 @@ button {
   transition: border-color 0.25s ease, background 0.4s ease;
 }
 
-.modal-auth__input::placeholder {
+.modal-phone-auth__input::placeholder {
   color: var(--text-muted);
 }
 
-.modal-auth__input:focus {
+.modal-phone-auth__input:focus {
   border-color: var(--accent);
 }
 
-.modal-auth__btn {
-  padding: 0.65rem 1.25rem;
+.modal-phone-auth__btn {
+  padding: 0.6rem 1.2rem;
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 0.85rem;
@@ -652,15 +720,15 @@ button {
   transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.modal-auth__btn:hover {
+.modal-phone-auth__btn:hover {
   background: var(--accent-hover);
 }
 
-.modal-auth__btn:active {
+.modal-phone-auth__btn:active {
   transform: scale(0.96);
 }
 
-.modal-auth__error {
+.modal-phone-auth__error {
   font-family: var(--font-body);
   font-weight: 400;
   font-size: 0.78rem;
@@ -670,24 +738,13 @@ button {
   transition: opacity 0.2s ease;
 }
 
-/* Authenticated content */
-.modal-content {
-  padding: 0.5rem 0 0;
+/* Phone Verified Content */
+.modal-phone-content {
+  padding: 0.5rem 0;
 }
 
-.modal-content__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: var(--text-primary);
-  margin-bottom: 1.25rem;
-}
-
-.modal-content__header svg {
-  color: var(--accent);
+.modal-phone-content.is-entering {
+  animation: modal-content-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Contact row */
@@ -698,7 +755,6 @@ button {
   padding: 0.85rem 1rem;
   background: var(--modal-input-bg);
   border-radius: var(--radius-sm);
-  margin-bottom: 1rem;
   transition: background 0.4s ease;
 }
 
@@ -732,7 +788,6 @@ button {
 /* QR code */
 .modal-qr {
   text-align: center;
-  margin-top: 0.5rem;
 }
 
 .modal-qr__label {
@@ -744,11 +799,13 @@ button {
 }
 
 .modal-qr__img-wrap {
+  position: relative;
   display: inline-block;
   padding: 12px;
   background: #fff;
   border-radius: var(--radius-sm);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
 
 .modal-qr__img {
@@ -756,6 +813,122 @@ button {
   height: 180px;
   display: block;
   object-fit: contain;
+}
+
+/* Zoom button on QR */
+.modal-qr__zoom {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+
+.modal-qr__img-wrap:hover .modal-qr__zoom {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.modal-qr__zoom:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-qr__zoom:active {
+  transform: scale(0.92);
+}
+
+/* Touch device: always show zoom button */
+@media (hover: none) and (pointer: coarse) {
+  .modal-qr__zoom {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
+
+/* QR Lightbox */
+.qr-lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.35s;
+}
+
+.qr-lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.qr-lightbox__close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.qr-lightbox__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.qr-lightbox__img-wrap {
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.3);
+  transform: scale(0.85);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.qr-lightbox.is-open .qr-lightbox__img-wrap {
+  transform: scale(1);
+}
+
+.qr-lightbox__img {
+  width: min(70vw, 360px);
+  height: min(70vw, 360px);
+  display: block;
+  object-fit: contain;
+}
+
+.qr-lightbox__hint {
+  margin-top: 1.25rem;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Modal content enter animation */
@@ -775,7 +948,8 @@ button {
 }
 
 /* Modal auth exit animation */
-.modal-auth.is-exiting {
+.modal-auth.is-exiting,
+.modal-phone-auth.is-exiting {
   animation: modal-auth-out 0.3s ease forwards;
 }
 

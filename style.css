@@ -227,7 +227,6 @@ button {
   background: var(--accent);
   margin: 0 auto 1.5rem;
   animation: loader-pulse 1.5s ease-in-out infinite;
-  box-shadow: 0 0 30px var(--accent-glow-strong);
 }
 
 @keyframes loader-pulse {
@@ -776,8 +775,8 @@ button {
 }
 
 .link-item:hover .link-item__icon {
-  transform: scale(1.1);
-  box-shadow: 0 0 16px var(--accent-glow-strong);
+  transform: scale(1.05);
+  background: var(--bg-glass-hover);
 }
 
 .link-item__icon svg { width: 18px; height: 18px; }
@@ -950,26 +949,9 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: 16px;
-  background: linear-gradient(135deg, var(--accent-glow) 0%, var(--accent-glow-strong) 100%);
+  background: var(--accent-glow);
   color: var(--accent);
   margin-bottom: 1.25rem;
-  position: relative;
-  box-shadow: 0 4px 20px var(--accent-glow);
-}
-
-.modal-phone-auth__icon::after {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: 19px;
-  border: 1px solid var(--accent-glow);
-  opacity: 0.5;
-  animation: auth-icon-pulse 2.5s ease-in-out infinite;
-}
-
-@keyframes auth-icon-pulse {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.08); opacity: 0.2; }
 }
 
 .modal-phone-auth__title {
@@ -1021,7 +1003,6 @@ button {
 
 .modal-phone-auth__input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
   background: var(--bg-glass-hover);
 }
 
@@ -1041,7 +1022,6 @@ button {
 
 .modal-phone-auth__btn:hover {
   background: var(--accent-hover);
-  box-shadow: 0 4px 20px var(--accent-glow-strong);
   transform: translateY(-1px);
 }
 
@@ -1657,24 +1637,13 @@ button {
   75% { transform: translate(15px, 30px) scale(1.05); }
 }
 
-/* --- Link Item Hover Glow Line --- */
+/* --- Link Item Hover Subtle Indicator --- */
 .link-item__glow-line {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 3px;
-  height: 100%;
-  background: linear-gradient(to bottom, transparent, var(--accent), transparent);
-  opacity: 0;
-  transform: scaleY(0);
-  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 3;
-  border-radius: 0 2px 2px 0;
+  display: none;
 }
 
 .link-item:hover .link-item__glow-line {
-  opacity: 1;
-  transform: scaleY(1);
+  display: none;
 }
 
 /* --- Hero Name Gradient Text --- */
@@ -1697,12 +1666,12 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-  height: 2px;
+  height: 1px;
   background: linear-gradient(90deg, var(--accent), var(--accent-hover));
   z-index: 9999;
   width: 0%;
   transition: width 0.1s linear;
-  box-shadow: 0 0 8px var(--accent-glow-strong);
+  opacity: 0.6;
 }
 
 /* --- Card Hover Lift Shadow --- */
@@ -1764,8 +1733,8 @@ button:focus-visible {
 /* --- Footer Glass Divider --- */
 .footer__divider {
   width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-glow-strong), transparent);
+  height: 1px;
+  background: var(--border-subtle);
   margin: 0 auto 1rem;
   border-radius: 1px;
 }

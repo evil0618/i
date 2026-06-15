@@ -1,5 +1,5 @@
 /* ============================================
-   evil0618 — Personal Homepage Script v3
+   evil0618 — Personal Homepage Script v4
    ============================================ */
 
 (function () {
@@ -134,10 +134,12 @@
       <div class="link-group animate-on-scroll">
         <p class="link-group__label">${group.category}</p>
         <div class="link-group__card stagger-children">
+          <div class="glass-shimmer" aria-hidden="true"></div>
           ${group.items.map(item => {
             if (item.isAction) {
               return `
                 <a href="javascript:void(0)" class="link-item animate-on-scroll" data-action="${item.action}">
+                  <span class="link-item__glow-line" aria-hidden="true"></span>
                   <span class="link-item__icon">${ICONS[item.icon] || ''}</span>
                   <span class="link-item__text">
                     <span class="link-item__name">${item.name}</span>
@@ -149,6 +151,7 @@
             }
             return `
               <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="link-item animate-on-scroll">
+                <span class="link-item__glow-line" aria-hidden="true"></span>
                 <span class="link-item__icon">${ICONS[item.icon] || ''}</span>
                 <span class="link-item__text">
                   <span class="link-item__name">${item.name}</span>
@@ -283,6 +286,9 @@
     contents.forEach(content => {
       content.classList.toggle('is-active', content.id === (tabName === 'wechat' ? 'tabWechat' : 'tabPhone'));
     });
+
+    // Update sliding indicator
+    requestAnimationFrame(() => updateTabIndicator());
 
     if (tabName === 'phone' && !isPhoneVerified) {
       setTimeout(() => {
@@ -692,12 +698,216 @@
   }
 
   // ============================================
-  // 18. Initialize
+  // 18. 3D Tilt Card Effect
+  // ============================================
+  function init3DTilt() {
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+
+    document.addEventListener('mousemove', (e) => {
+      const cards = document.querySelectorAll('.link-group__card');
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const isInside = e.clientX >= rect.left && e.clientX <= rect.right &&
+                         e.clientY >= rect.top && e.clientY <= rect.bottom;
+        if (isInside) {
+          const x = (e.clientX - rect.left) / rect.width;
+          const y = (e.clientY - rect.top) / rect.height;
+          const tiltX = (y - 0.5) * -6;
+          const tiltY = (x - 0.5) * 6;
+          card.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+          card.classList.add('is-tilting');
+        } else {
+          card.style.transform = '';
+          card.classList.remove('is-tilting');
+        }
+      });
+    });
+  }
+
+  // ============================================
+  // 19. Magnetic Button Effect
+  // ============================================
+  function initMagneticButtons() {
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+
+    const targets = document.querySelectorAll('.float-nav__btn, .back-to-top, .footer__theme-toggle');
+    targets.forEach(el => el.classList.add('magnetic-target'));
+
+    document.addEventListener('mousemove', (e) => {
+      targets.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 80;
+
+        if (dist < maxDist) {
+          const strength = (1 - dist / maxDist) * 8;
+          el.style.transform = `translate(${dx / maxDist * strength}px, ${dy / maxDist * strength}px)`;
+        } else {
+          el.style.transform = '';
+        }
+      });
+    });
+  }
+
+  // ============================================
+  // 20. Scroll Progress Bar
+  // ============================================
+  function initScrollProgress() {
+    const bar = document.getElementById('scrollProgress');
+    if (!bar) return;
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      bar.style.width = progress + '%';
+    }, { passive: true });
+  }
+
+  // ============================================
+  // 21. Modal Card Spotlight
+  // ============================================
+  function initModalSpotlight() {
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+
+    const card = document.querySelector('.modal-card');
+    const spotlight = document.getElementById('modalSpotlight');
+    if (!card || !spotlight) return;
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      spotlight.style.left = (e.clientX - rect.left) + 'px';
+      spotlight.style.top = (e.clientY - rect.top) + 'px';
+    });
+  }
+
+  // ============================================
+  // 22. Tab Indicator Animation
+  // ============================================
+  function updateTabIndicator() {
+    const tabs = document.querySelector('.modal-tabs');
+    const indicator = document.getElementById('modalTabsIndicator');
+    if (!tabs || !indicator) return;
+
+    const activeTab = tabs.querySelector('.modal-tab.is-active');
+    if (!activeTab) return;
+
+    const tabsRect = tabs.getBoundingClientRect();
+    const activeRect = activeTab.getBoundingClientRect();
+
+    indicator.style.left = (activeRect.left - tabsRect.left) + 'px';
+    indicator.style.width = activeRect.width + 'px';
+  }
+
+  // ============================================
+  // 23. Nav Brand Scroll Glow
+  // ============================================
+  function initNavBrandGlow() {
+    const brand = document.querySelector('.float-nav__brand');
+    if (!brand) return;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > window.innerHeight * 0.3) {
+        brand.classList.add('is-scrolled');
+      } else {
+        brand.classList.remove('is-scrolled');
+      }
+    }, { passive: true });
+  }
+
+  // ============================================
+  // 24. Enhanced Particle System with Canvas
+  // ============================================
+  function initParticleCanvas() {
+    const container = document.getElementById('heroParticles');
+    if (!container) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.className = 'particle-canvas';
+    container.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    const particles = [];
+    const count = window.innerWidth < 640 ? 30 : 50;
+    const maxDist = 120;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        r: 1 + Math.random() * 1.5,
+        opacity: 0.15 + Math.random() * 0.35,
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < maxDist) {
+            const alpha = (1 - dist / maxDist) * 0.12;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw particles
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    // Respect reduced motion
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      draw();
+    }
+  }
+
+  // ============================================
+  // 25. Initialize
   // ============================================
   function init() {
     initLoader();
     initTypingAnimation();
-    initParticles();
+    initParticleCanvas();
     renderLinks();
     initHeroAnimation();
     initScrollAnimations();
@@ -709,8 +919,18 @@
     initBackToTop();
     initRipple();
     initServiceWorker();
+    init3DTilt();
+    initMagneticButtons();
+    initScrollProgress();
+    initModalSpotlight();
+    initNavBrandGlow();
 
     fetchBingWallpaper().then(applyWallpaper).catch(() => {});
+
+    // Initialize tab indicator after DOM is ready
+    requestAnimationFrame(() => {
+      updateTabIndicator();
+    });
   }
 
   if (document.readyState === 'loading') {

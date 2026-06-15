@@ -287,9 +287,7 @@
       content.classList.toggle('is-active', content.id === (tabName === 'wechat' ? 'tabWechat' : 'tabPhone'));
     });
 
-    // Update sliding indicator
-    requestAnimationFrame(() => updateTabIndicator());
-
+    // Update tab indicator
     if (tabName === 'phone' && !isPhoneVerified) {
       setTimeout(() => {
         const input = document.getElementById('phoneAuthInput');
@@ -786,25 +784,7 @@
   }
 
   // ============================================
-  // 22. Tab Indicator Animation
-  // ============================================
-  function updateTabIndicator() {
-    const tabs = document.querySelector('.modal-tabs');
-    const indicator = document.getElementById('modalTabsIndicator');
-    if (!tabs || !indicator) return;
-
-    const activeTab = tabs.querySelector('.modal-tab.is-active');
-    if (!activeTab) return;
-
-    const tabsRect = tabs.getBoundingClientRect();
-    const activeRect = activeTab.getBoundingClientRect();
-
-    indicator.style.left = (activeRect.left - tabsRect.left) + 'px';
-    indicator.style.width = activeRect.width + 'px';
-  }
-
-  // ============================================
-  // 23. Nav Brand Scroll Glow
+  // 22. Nav Brand Scroll Glow
   // ============================================
   function initNavBrandGlow() {
     const brand = document.querySelector('.float-nav__brand');
@@ -926,11 +906,6 @@
     initNavBrandGlow();
 
     fetchBingWallpaper().then(applyWallpaper).catch(() => {});
-
-    // Initialize tab indicator after DOM is ready
-    requestAnimationFrame(() => {
-      updateTabIndicator();
-    });
   }
 
   if (document.readyState === 'loading') {

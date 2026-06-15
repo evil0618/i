@@ -9,16 +9,13 @@
 
   /* Liquid Glass — Light */
   --bg-primary: rgba(255, 255, 255, 0.55);
-  --bg-glass: rgba(255, 255, 255, 0.25);
-  --bg-glass-hover: rgba(255, 255, 255, 0.4);
-  --bg-glass-active: rgba(255, 255, 255, 0.35);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --glass-border-subtle: rgba(255, 255, 255, 0.3);
-  --glass-inner-glow: rgba(255, 255, 255, 0.6);
-  --glass-refraction: rgba(255, 255, 255, 0.12);
-  --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 50%);
-  --glass-depth: 0 4px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255,255,255,0.5);
-  --glass-depth-hover: 0 8px 40px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+  --bg-glass: rgba(255, 255, 255, 0.18);
+  --bg-glass-hover: rgba(255, 255, 255, 0.3);
+  --bg-glass-active: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-border-subtle: rgba(255, 255, 255, 0.15);
+  --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.03);
+  --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.05);
 
   --text-primary: #1a1a1a;
   --text-secondary: #555555;
@@ -30,8 +27,8 @@
   --border-subtle: rgba(0, 0, 0, 0.06);
   --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.06);
   --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.1);
-  --glass-blur: 20px;
-  --glass-saturate: 200%;
+  --glass-blur: 24px;
+  --glass-saturate: 180%;
   --radius: 20px;
   --radius-sm: 12px;
   --radius-lg: 24px;
@@ -56,16 +53,13 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-primary: rgba(20, 20, 28, 0.6);
-    --bg-glass: rgba(255, 255, 255, 0.06);
-    --bg-glass-hover: rgba(255, 255, 255, 0.1);
-    --bg-glass-active: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --glass-border-subtle: rgba(255, 255, 255, 0.06);
-    --glass-inner-glow: rgba(255, 255, 255, 0.05);
-    --glass-refraction: rgba(255, 255, 255, 0.03);
-    --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 50%);
-    --glass-depth: 0 4px 30px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255,255,255,0.08);
-    --glass-depth-hover: 0 8px 40px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+    --bg-glass: rgba(255, 255, 255, 0.05);
+    --bg-glass-hover: rgba(255, 255, 255, 0.08);
+    --bg-glass-active: rgba(255, 255, 255, 0.07);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-border-subtle: rgba(255, 255, 255, 0.05);
+    --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.15), 0 4px 24px rgba(0, 0, 0, 0.1);
+    --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.2), 0 8px 32px rgba(0, 0, 0, 0.15);
 
     --text-primary: #f0ece6;
     --text-secondary: #b0aaa0;
@@ -89,16 +83,13 @@
 
 :root[data-theme='dark'] {
   --bg-primary: rgba(20, 20, 28, 0.6);
-  --bg-glass: rgba(255, 255, 255, 0.06);
-  --bg-glass-hover: rgba(255, 255, 255, 0.1);
-  --bg-glass-active: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-border-subtle: rgba(255, 255, 255, 0.06);
-  --glass-inner-glow: rgba(255, 255, 255, 0.05);
-  --glass-refraction: rgba(255, 255, 255, 0.03);
-  --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 50%);
-  --glass-depth: 0 4px 30px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255,255,255,0.08);
-  --glass-depth-hover: 0 8px 40px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+  --bg-glass: rgba(255, 255, 255, 0.05);
+  --bg-glass-hover: rgba(255, 255, 255, 0.08);
+  --bg-glass-active: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-subtle: rgba(255, 255, 255, 0.05);
+  --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.15), 0 4px 24px rgba(0, 0, 0, 0.1);
+  --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.2), 0 8px 32px rgba(0, 0, 0, 0.15);
   --text-primary: #f0ece6;
   --text-secondary: #b0aaa0;
   --text-muted: #706a60;
@@ -120,16 +111,13 @@
 
 :root[data-theme='light'] {
   --bg-primary: rgba(255, 255, 255, 0.55);
-  --bg-glass: rgba(255, 255, 255, 0.25);
-  --bg-glass-hover: rgba(255, 255, 255, 0.4);
-  --bg-glass-active: rgba(255, 255, 255, 0.35);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --glass-border-subtle: rgba(255, 255, 255, 0.3);
-  --glass-inner-glow: rgba(255, 255, 255, 0.6);
-  --glass-refraction: rgba(255, 255, 255, 0.12);
-  --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 50%);
-  --glass-depth: 0 4px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255,255,255,0.5);
-  --glass-depth-hover: 0 8px 40px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+  --bg-glass: rgba(255, 255, 255, 0.18);
+  --bg-glass-hover: rgba(255, 255, 255, 0.3);
+  --bg-glass-active: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-border-subtle: rgba(255, 255, 255, 0.15);
+  --glass-depth: 0 1px 8px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.03);
+  --glass-depth-hover: 0 2px 12px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.05);
   --text-primary: #1a1a1a;
   --text-secondary: #555555;
   --text-muted: #888888;
@@ -206,33 +194,6 @@ button {
   box-shadow: var(--glass-depth);
   position: relative;
   overflow: hidden;
-}
-
-/* Refraction highlight overlay */
-.liquid-glass::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: var(--glass-highlight);
-  pointer-events: none;
-  z-index: 1;
-  border-radius: inherit;
-}
-
-/* Subtle inner glow at bottom */
-.liquid-glass::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--glass-inner-glow), transparent);
-  pointer-events: none;
-  z-index: 1;
 }
 
 /* ============================================
@@ -371,8 +332,8 @@ button {
   width: 100%;
   height: 100%;
   background: var(--modal-overlay);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 1500;
   display: flex;
   align-items: flex-start;
@@ -407,11 +368,12 @@ button {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem 1.25rem;
+  padding: 1.1rem 1.25rem;
   color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.search-box__input-wrap svg { flex-shrink: 0; }
+.search-box__input-wrap svg { flex-shrink: 0; opacity: 0.5; }
 
 .search-box__input {
   flex: 1;
@@ -422,14 +384,14 @@ button {
   font-weight: 400;
   font-size: 1rem;
   color: var(--text-primary);
+  caret-color: var(--accent);
 }
 
-.search-box__input::placeholder { color: var(--text-muted); }
+.search-box__input::placeholder { color: var(--text-muted); opacity: 0.6; }
 
 .search-box__results {
   max-height: 320px;
   overflow-y: auto;
-  border-top: 1px solid var(--border-subtle);
 }
 
 .search-result {
@@ -473,12 +435,18 @@ button {
 }
 
 .search-box__empty {
-  padding: 2rem 1.25rem;
+  padding: 2.5rem 1.25rem;
   text-align: center;
   font-family: var(--font-body);
   font-weight: 300;
   font-size: 0.85rem;
   color: var(--text-muted);
+}
+
+.search-box__empty-icon {
+  display: block;
+  margin: 0 auto 0.75rem;
+  opacity: 0.3;
 }
 
 /* ============================================
@@ -619,19 +587,6 @@ button {
   position: relative;
   overflow: hidden;
   transition: background 0.5s ease, border-color 0.5s ease;
-}
-
-/* Highlight on meta pill */
-.hero__meta::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: var(--glass-highlight);
-  pointer-events: none;
-  border-radius: inherit;
 }
 
 .hero__meta-item {
@@ -777,33 +732,6 @@ button {
   transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
 }
 
-/* Top highlight refraction */
-.link-group__card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 40%;
-  background: var(--glass-highlight);
-  pointer-events: none;
-  z-index: 1;
-  border-radius: inherit;
-}
-
-/* Bottom inner glow */
-.link-group__card::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 15%;
-  right: 15%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--glass-inner-glow), transparent);
-  pointer-events: none;
-  z-index: 1;
-}
-
 /* Link item */
 .link-item {
   display: flex;
@@ -928,20 +856,6 @@ button {
   overflow: hidden;
 }
 
-/* Top highlight on modal */
-.modal-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 40%;
-  background: var(--glass-highlight);
-  pointer-events: none;
-  z-index: 0;
-  border-radius: inherit;
-}
-
 .modal-overlay.is-open .modal-card {
   transform: scale(1) translateY(0);
   opacity: 1;
@@ -1003,7 +917,7 @@ button {
 .modal-tab.is-active {
   background: var(--bg-glass);
   color: var(--accent);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06), inset 0 1px 0 var(--glass-inner-glow);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   border: 1px solid var(--glass-border-subtle);
 }
 
@@ -1026,25 +940,42 @@ button {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 1rem 0 0.5rem;
+  padding: 1.5rem 0 0.5rem;
 }
 
 .modal-phone-auth__icon {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 14px;
-  background: var(--accent-glow);
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--accent-glow) 0%, var(--accent-glow-strong) 100%);
   color: var(--accent);
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.modal-phone-auth__icon::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 19px;
+  border: 1px solid var(--accent-glow);
+  opacity: 0.5;
+  animation: auth-icon-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes auth-icon-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.08); opacity: 0.2; }
 }
 
 .modal-phone-auth__title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: var(--text-primary);
   margin-bottom: 0.35rem;
 }
@@ -1054,44 +985,55 @@ button {
   font-weight: 300;
   font-size: 0.82rem;
   color: var(--text-muted);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
 }
 
 .modal-phone-auth__form {
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.75rem;
   width: 100%;
-  max-width: 280px;
+  max-width: 260px;
 }
 
 .modal-phone-auth__input {
-  flex: 1;
-  padding: 0.6rem 1rem;
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 0.9rem;
+  width: 100%;
+  padding: 0.75rem 1.1rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1rem;
   color: var(--text-primary);
   background: var(--modal-input-bg);
   border: 1px solid var(--modal-input-border);
-  border-radius: var(--radius-sm);
+  border-radius: 14px;
   outline: none;
+  text-align: center;
+  letter-spacing: 0.15em;
   transition: border-color 0.25s ease, background 0.5s ease, box-shadow 0.25s ease;
 }
 
-.modal-phone-auth__input::placeholder { color: var(--text-muted); }
+.modal-phone-auth__input::placeholder {
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  font-weight: 300;
+}
+
 .modal-phone-auth__input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-glow);
+  background: var(--bg-glass-hover);
 }
 
 .modal-phone-auth__btn {
-  padding: 0.6rem 1.2rem;
+  width: 100%;
+  padding: 0.75rem 1.2rem;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: #fff;
   background: var(--accent);
-  border-radius: var(--radius-sm);
+  border-radius: 14px;
   transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
@@ -1099,17 +1041,22 @@ button {
 
 .modal-phone-auth__btn:hover {
   background: var(--accent-hover);
-  box-shadow: 0 4px 16px var(--accent-glow-strong);
+  box-shadow: 0 4px 20px var(--accent-glow-strong);
+  transform: translateY(-1px);
 }
-.modal-phone-auth__btn:active { transform: scale(0.96); }
+
+.modal-phone-auth__btn:active {
+  transform: scale(0.97) translateY(0);
+}
 
 .modal-phone-auth__error {
   font-family: var(--font-body);
   font-weight: 400;
   font-size: 0.78rem;
   color: var(--modal-error);
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   min-height: 1.2em;
+  transition: opacity 0.25s ease;
 }
 
 .modal-phone-content { padding: 0.5rem 0; }
@@ -1781,20 +1728,7 @@ button {
   opacity: 1;
 }
 
-/* --- Tab Switcher Sliding Indicator --- */
-.modal-tabs__indicator {
-  position: absolute;
-  height: calc(100% - 8px);
-  top: 4px;
-  border-radius: 10px;
-  background: var(--bg-glass);
-  border: 1px solid var(--glass-border-subtle);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06), inset 0 1px 0 var(--glass-inner-glow);
-  transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1), width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 0;
-  pointer-events: none;
-}
-
+/* --- Tab Switcher --- */
 .modal-tab {
   position: relative;
   z-index: 1;
@@ -1802,14 +1736,21 @@ button {
 
 /* --- Enhanced Focus Ring --- */
 *:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: none;
 }
 
 button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: none;
+}
+
+/* Search input: no outline, use subtle border change instead */
+.search-box__input:focus-visible {
+  outline: none;
+}
+
+/* Auth input: use glow ring instead of outline */
+.modal-phone-auth__input:focus-visible {
+  outline: none;
 }
 
 /* --- Nav Brand Glow on Scroll --- */
